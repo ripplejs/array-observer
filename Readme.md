@@ -1,24 +1,25 @@
 
-# observable-array
+# array-observer
 
-  Wrap an array so that it emits events when it changes. Mostly
-  borrowed from tower/observable-array
+[![Build Status](https://travis-ci.org/ripplejs/array-observer.png?branch=master)](https://travis-ci.org/ripplejs/array-observer)
+
+  Watch an array for changes
 
 ## Installation
 
   Install with [component(1)](http://component.io):
 
-    $ component install ripplejs/observable-array
+    $ component install ripplejs/array-observer
 
 ## API
 
 ```js
-var observer = require('observable-array');
+var observe = require('array-observer');
 var items = [];
 
-observer.wrap(items);
+observer = observe(items);
 
-items.on('add', function(val){
+observer.on('add', function(val){
   console.log(val);
 });
 

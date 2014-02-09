@@ -1,6 +1,6 @@
 {
-  "name": "observable-array",
-  "description": "Wrap an array so that it emits events when it changes",
+  "name": "array-observer",
+  "description": "Watch an array for changes",
   "version": "0.0.1",
   "keywords": [],
   "dependencies": {
