@@ -14,7 +14,7 @@ describe('observe array', function(){
       assert(i === 3);
       done()
     });
-    arr.data.push(1);
+    arr.push(1);
   })
 
   it('#pop', function(done){
@@ -23,7 +23,7 @@ describe('observe array', function(){
       assert(i === 2);
       done()
     });
-    arr.data.pop();
+    arr.pop();
   })
 
   it('#shift', function(done){
@@ -32,7 +32,7 @@ describe('observe array', function(){
       assert(i === 0);
       done();
     });
-    arr.data.shift();
+    arr.shift();
   })
 
   it('#unshift', function(done){
@@ -41,7 +41,7 @@ describe('observe array', function(){
       assert(i === 0);
       done()
     });
-    arr.data.unshift(4);
+    arr.unshift(4);
   })
 
   it('#splice add', function(done){
@@ -50,7 +50,7 @@ describe('observe array', function(){
       assert(i === 0);
       done()
     });
-    arr.data.splice(0, 1, 5);
+    arr.splice(0, 1, 5);
   })
 
   it('#splice remove', function(done){
@@ -59,16 +59,76 @@ describe('observe array', function(){
       assert(i === 0);
       done()
     });
-    arr.data.splice(0, 1);
+    arr.splice(0, 1);
   })
 
   it('#reverse', function(done){
     arr.on('sort', function(){ done() });
-    arr.data.reverse();
+    arr.reverse();
   })
 
   it('#sort', function(done){
     arr.on('sort', function(){ done() });
-    arr.data.sort();
+    arr.sort();
   })
+
+  describe('change events', function () {
+
+    it('push', function (done) {
+      arr.on('change', function(){
+        done();
+      });
+      arr.push(1);
+    });
+
+    it('pop', function (done) {
+      arr.on('change', function(){
+        done();
+      });
+      arr.pop();
+    });
+
+    it('shift', function (done) {
+      arr.on('change', function(){
+        done();
+      });
+      arr.shift();
+    });
+
+    it('unshift', function (done) {
+      arr.on('change', function(){
+        done();
+      });
+      arr.unshift(1);
+    });
+
+    it('reverse', function (done) {
+      arr.on('change', function(){
+        done();
+      });
+      arr.reverse();
+    });
+
+    it('sort', function (done) {
+      arr.on('change', function(){
+        done();
+      });
+      arr.sort();
+    });
+
+    it('splice add', function (done) {
+      arr.on('change', function(){
+        done();
+      });
+      arr.splice(0, 1, 5);
+    });
+
+    it('splice remove', function (done) {
+      arr.on('change', function(){
+        done();
+      });
+      arr.splice(0, 1);
+    });
+  });
+
 })

@@ -1,9 +1,12 @@
-var Emitter = require('emitter');
+var emitter = require('emitter');
 var slice = Array.prototype.slice;
 
 module.exports = function(arr) {
 
-  var emitter = new Emitter();
+  /**
+   * Make array an event emitter
+   */
+  emitter(arr);
 
   /**
    * Add an element to the end of the collection.
@@ -13,10 +16,12 @@ module.exports = function(arr) {
    */
 
   function push() {
+    var self = this;
     var startIndex = this.length;
     var result = Array.prototype.push.apply(this, arguments);
     this.slice(startIndex, this.length).forEach(function(value, i){
-      emitter.emit('add', value, (startIndex + i));
+      self.emit('add', value, (startIndex + i));
+      self.emit('change');
     });
     return result;
   }
@@ -31,7 +36,8 @@ module.exports = function(arr) {
   function pop() {
     var startIndex = this.length;
     var result = Array.prototype.pop.apply(this, arguments);
-    emitter.emit('remove', result, startIndex - 1);
+    this.emit('remove', result, startIndex - 1);
+    this.emit('change');
     return result;
   }
 
@@ -45,7 +51,8 @@ module.exports = function(arr) {
   function shift() {
     var startIndex = this.length;
     var result = Array.prototype.shift.apply(this, arguments);
-    emitter.emit('remove', result, 0);
+    this.emit('remove', result, 0);
+    this.emit('change');
     return result;
   }
 
@@ -56,10 +63,12 @@ module.exports = function(arr) {
    */
 
   function unshift() {
+    var self = this;
     var length = this.length;
     var result = Array.prototype.unshift.apply(this, arguments);
     this.slice(0, this.length - length).forEach(function(value, i){
-      emitter.emit('add', value, i);
+      self.emit('add', value, i);
+      self.emit('change');
     });
     return result;
   }
@@ -76,17 +85,19 @@ module.exports = function(arr) {
    */
 
   function splice(index, length) {
+    var self = this;
     var removed = Array.prototype.splice.apply(this, arguments);
     if (removed.length) {
       removed.forEach(function(value, i){
-        emitter.emit('remove', value, index + i);
+        self.emit('remove', value, index + i);
       });
     }
     if (arguments.length > 2) {
       slice.call(arguments, 2).forEach(function(value, i){
-        emitter.emit('add', value, index + i);
+        self.emit('add', value, index + i);
       });
     }
+    this.emit('change');
     return removed;
   }
 
@@ -98,7 +109,8 @@ module.exports = function(arr) {
 
   function reverse() {
     var result = Array.prototype.reverse.apply(this, arguments);
-    emitter.emit('sort');
+    this.emit('sort');
+    this.emit('change');
     return result;
   }
 
@@ -110,7 +122,8 @@ module.exports = function(arr) {
 
   function sort() {
     var result = Array.prototype.sort.apply(this, arguments);
-    emitter.emit('sort');
+    this.emit('sort');
+    this.emit('change');
     return result;
   }
 
@@ -128,7 +141,5 @@ module.exports = function(arr) {
     arr[method] = methods[method];
   }
 
-  emitter.data = arr;
-
-  return emitter;
+  return arr;
 };

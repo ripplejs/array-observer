@@ -1,16 +1,12 @@
 {
   "name": "array-observer",
-  "description": "Watch an array for changes",
-  "version": "0.0.1",
-  "keywords": [],
+  "version": "0.3.0",
   "dependencies": {
     "component/emitter": "*"
   },
   "development": {
     "component/assert": "*"
   },
-  "license": "MIT",
-  "main": "index.js",
   "scripts": [
     "index.js"
   ]
